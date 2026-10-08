@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cosmo Merge — Duel</title>
+<meta name="description" content="You've been challenged to a Cosmo Merge duel. Same game for both, highest score wins.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cosmo Merge">
+<meta property="og:title" content="⚔️ Cosmo Merge duel">
+<meta property="og:description" content="You've been challenged! Same game for both, highest score wins.">
+<meta property="og:url" content="https://sbarcatt2.github.io/cosmo-merge/duel/">
+<meta property="og:image" content="https://sbarcatt2.github.io/cosmo-merge/duel/og.jpg">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="500">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b0f2a">
+<link rel="icon" href="icon.png">
+<style>
+  :root { --bg: #0b0f2a; --fg: #f4f6ff; --muted: rgba(244,246,255,.65); --accent: #ffb347; --accent2: #ff5a3c; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: radial-gradient(120% 80% at 50% 0%, #241a52 0%, var(--bg) 55%, #1d1236 100%) fixed;
+    color: var(--fg); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex; align-items: center; justify-content: center; padding: 32px 16px; min-height: 100vh;
+  }
+  main { width: min(100%, 400px); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .logo { margin: 0 0 6px; font-weight: 900; font-size: 44px; line-height: .95; letter-spacing: 2px; }
+  .logo span { display: block; }
+  .logo .m { background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h1 { margin: 0; font-size: 24px; font-weight: 900; }
+  p { margin: 0; color: var(--muted); }
+  .code { margin: 6px 0; padding: 12px 22px; border-radius: 16px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); }
+  .code small { display: block; color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .code b { font: 900 34px/1.2 ui-monospace, "SF Mono", Menlo, Consolas, monospace; letter-spacing: 6px; }
+  .btn { display: block; width: 100%; max-width: 300px; padding: 15px 22px; border-radius: 16px; text-decoration: none;
+    font-weight: 900; font-size: 18px; color: var(--fg); background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14); }
+  .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #1a0a08; border: 0; box-shadow: 0 10px 30px rgba(255,120,60,.35); }
+  .note { font-size: 14px; max-width: 320px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <div class="logo"><span>COSMO</span><span class="m">MERGE</span></div>
+  <h1 id="title">⚔️</h1>
+  <p id="sub"></p>
+  <div id="code" class="code" hidden><small id="code-label"></small><b id="code-value"></b></div>
+  <a id="open" class="btn primary" hidden></a>
+  <a id="install" class="btn" href="https://play.google.com/store/apps/details?id=com.cosmomerge.app"></a>
+  <p id="note" class="note" hidden></p>
+</main>
+<script>
+// Invite page for Cosmo Merge duels: /cosmo-merge/duel/?c=CODE. With the app installed and the App Link
+// verified, Android opens the app before this page loads. Otherwise this page tries the cosmomerge://
+// intent; when the app is missing Chrome comes back here with &noapp=1 and the page explains what to do.
+const S = {
+  en: { title: "You've been challenged to a duel", sub: 'Play the same Cosmo Merge game. Highest score wins.', code: 'Duel code', open: 'Open the duel', install: 'Install for free', noapp: "First install Cosmo Merge (it's free). Then tap the link in the message again, or open Duels in the game and enter the code.", android: 'Cosmo Merge is available for Android.', bad: "This link doesn't have a valid duel code." },
+  es: { title: 'Te desafiaron a un duelo', sub: 'Jueguen la misma partida de Cosmo Merge. Gana quien haga más puntos.', code: 'Código del duelo', open: 'Abrir el duelo', install: 'Instalar gratis', noapp: 'Primero instala Cosmo Merge (es gratis). Después vuelve a tocar el enlace del mensaje, o abre Duelos en el juego y escribe el código.', android: 'Cosmo Merge está disponible para Android.', bad: 'Este enlace no tiene un código de duelo válido.' },
+  pt: { title: 'Você foi desafiado para um duelo', sub: 'Joguem a mesma partida de Cosmo Merge. Ganha quem fizer mais pontos.', code: 'Código do duelo', open: 'Abrir o duelo', install: 'Instalar grátis', noapp: 'Primeiro instale o Cosmo Merge (é grátis). Depois toque de novo no link da mensagem, ou abra Duelos no jogo e digite o código.', android: 'Cosmo Merge está disponível para Android.', bad: 'Este link não tem um código de duelo válido.' },
+  fr: { title: 'On te défie en duel', sub: 'Jouez la même partie de Cosmo Merge. Le plus gros score gagne.', code: 'Code du duel', open: 'Ouvrir le duel', install: 'Installer gratuitement', noapp: "Installe d'abord Cosmo Merge (c'est gratuit). Ensuite, touche à nouveau le lien du message, ou ouvre Duels dans le jeu et entre le code.", android: 'Cosmo Merge est disponible sur Android.', bad: 'Ce lien ne contient pas de code de duel valide.' },
+  de: { title: 'Du wurdest zum Duell herausgefordert', sub: 'Spielt dieselbe Partie Cosmo Merge. Wer mehr Punkte holt, gewinnt.', code: 'Duell-Code', open: 'Duell öffnen', install: 'Kostenlos installieren', noapp: 'Installiere zuerst Cosmo Merge (kostenlos). Tippe dann erneut auf den Link in der Nachricht oder öffne Duelle im Spiel und gib den Code ein.', android: 'Cosmo Merge gibt es für Android.', bad: 'Dieser Link enthält keinen gültigen Duell-Code.' },
+  it: { title: 'Sei stato sfidato a duello', sub: 'Giocate la stessa partita di Cosmo Merge. Vince chi fa più punti.', code: 'Codice del duello', open: 'Apri il duello', install: 'Installa gratis', noapp: 'Prima installa Cosmo Merge (è gratis). Poi tocca di nuovo il link del messaggio, oppure apri Duelli nel gioco e inserisci il codice.', android: 'Cosmo Merge è disponibile per Android.', bad: 'Questo link non contiene un codice duello valido.' },
+  ru: { title: 'Тебя вызвали на дуэль', sub: 'Сыграйте одну и ту же партию в Cosmo Merge. Побеждает тот, кто наберёт больше очков.', code: 'Код дуэли', open: 'Открыть дуэль', install: 'Установить бесплатно', noapp: 'Сначала установи Cosmo Merge (это бесплатно). Потом снова нажми на ссылку в сообщении или открой «Дуэли» в игре и введи код.', android: 'Cosmo Merge доступна для Android.', bad: 'В этой ссылке нет правильного кода дуэли.' },
+  ja: { title: '対戦の挑戦状が届きました', sub: 'Cosmo Merge の同じゲームで勝負。スコアが高いほうの勝ち。', code: '対戦コード', open: '対戦を開く', install: '無料でインストール', noapp: 'まず Cosmo Merge をインストール（無料）。そのあとメッセージのリンクをもう一度タップするか、ゲームの「対戦」でコードを入力してね。', android: 'Cosmo Merge は Android 版があります。', bad: 'このリンクには有効な対戦コードがありません。' },
+  ko: { title: '대결 신청이 왔어요', sub: 'Cosmo Merge 같은 게임으로 승부해요. 점수가 높은 쪽이 이겨요.', code: '대결 코드', open: '대결 열기', install: '무료로 설치', noapp: '먼저 Cosmo Merge를 설치하세요(무료). 그다음 메시지의 링크를 다시 누르거나, 게임의 대결 메뉴에서 코드를 입력하세요.', android: 'Cosmo Merge는 Android에서 플레이할 수 있어요.', bad: '이 링크에는 올바른 대결 코드가 없어요.' },
+  zh: { title: '有人向你发起对决', sub: '玩同一局 Cosmo Merge，分数高的获胜。', code: '对决代码', open: '打开对决', install: '免费安装', noapp: '先安装 Cosmo Merge（免费）。然后再点一次消息里的链接，或在游戏的“对决”中输入代码。', android: 'Cosmo Merge 支持 Android。', bad: '这个链接没有有效的对决代码。' },
+};
+const lang = (navigator.language || 'en').toLowerCase().split(/[-_]/)[0];
+const s = S[lang] || S.en;
+document.documentElement.lang = S[lang] ? lang : 'en';
+const $ = (id) => document.getElementById(id);
+
+const params = new URLSearchParams(location.search);
+const code = (params.get('c') || '').toUpperCase();
+const valid = /^[A-HJ-NP-Z2-9]{6}$/.test(code);
+const noApp = params.has('noapp');
+const android = /Android/i.test(navigator.userAgent);
+
+$('title').textContent = `⚔️ ${valid ? s.title : s.bad}`;
+$('sub').textContent = valid ? s.sub : '';
+$('install').textContent = s.install;
+if (valid) {
+  $('code').hidden = false;
+  $('code-label').textContent = s.code;
+  $('code-value').textContent = code;
+}
+
+if (valid && android && !noApp) {
+  const back = new URL(location.href);
+  back.searchParams.set('noapp', '1');
+  const intent = `intent://duel?c=${code}#Intent;scheme=cosmomerge;package=com.cosmomerge.app;`
+    + `S.browser_fallback_url=${encodeURIComponent(back.href)};end`;
+  $('open').hidden = false;
+  $('open').textContent = s.open;
+  $('open').href = intent;
+  location.href = intent; // Chrome may only allow it from the button; then the button does it
+} else {
+  $('install').classList.add('primary');
+  $('note').textContent = !valid ? '' : android ? s.noapp : `${s.android} ${s.noapp}`;
+  $('note').hidden = !$('note').textContent;
+}
+</script>
+</body>
+</html>

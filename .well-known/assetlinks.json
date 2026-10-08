@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.cosmomerge.app",
+      "sha256_cert_fingerprints": [
+        "CA:37:DD:56:72:4A:26:66:D7:60:58:B7:E6:5A:B7:D6:54:94:95:2C:02:DB:5B:A7:DC:0F:43:4F:A1:60:E9:42"
+      ]
+    }
+  }
+]
